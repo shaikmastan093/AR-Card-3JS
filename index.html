@@ -1,265 +1,113 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" /> -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=1.0, minimum-scale=1.0, maximum-scale=1.0">
-    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
-    <title>Stylish AR Business Card</title>
-    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-    <script src="https://ar-js-org.github.io/AR.js/aframe/build/aframe-ar.js"></script>
-    <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f0f0f0; /* Light background for contrast */
-        }
-
-        a-scene {
-            width: 100%;
-            height: 100%;
-        }
-
-        /* Responsive styles */
-        @media (max-width: 768px) {
-            .profile-name {
-                font-size: 1.5em; /* Smaller font for mobile */
-            }
-            .social-icon {
-                scale: 0.1 0.1 0.1; /* Smaller icons for mobile */
-            }
-        }
-
-        .fade-in {
-            animation: fadeIn 1s forwards;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .slide-in {
-            animation: slideIn 1s forwards;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateX(-50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .flip-animation {
-            animation: flip 1s forwards;
-        }
-
-        @keyframes flip {
-            0% { transform: rotateY(0deg); }
-            50% { transform: rotateY(180deg); }
-            100% { transform: rotateY(0deg); }
-        }
-
-        .bounce-animation {
-            animation: bounce 1s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-    </style>
-</head>
-<body>
-    <a-scene embedded arjs>
-        <!-- Lighting -->
-        <a-light type="ambient" color="#ffffff" intensity="0.7"></a-light>
-        <a-light type="directional" color="#ffffff" intensity="1" position="-1 1 1"></a-light>
-
-        <!-- Marker -->
-        <a-marker type="pattern" url="./marker.patt" id="marker">
-            <!-- Video Background at the Top -->
-            <a-video id="background-video" src="./assets/video.mp4" 
-                     position="0 1.5 0" scale="2 1 1" 
-                     autoplay="false" loop="true" visible="false"></a-video>
-
-            <!-- Right Side: Profile Image and Name -->
-            <a-image id="profile-image" src="./assets/selva.png" 
-                     scale="0.5 0.5 0.5" 
-                     position="1.2 0.6 0" 
-                     visible="false"></a-image>
-            
-            <a-text id="profile-name" value="SELVENDRAN S" 
-                     position="1.5 0.1 0" 
-                     scale="1 1 1" 
-                     color="#FFD700" 
-                     align="center" 
-                     visible="false"></a-text>
-
-            <!-- New Section: Email, Contact, and Website -->
-            <a-image id="email-icon" src="./assets/email.png" 
-                     scale="0.15 0.15 0.15" 
-                     position="1.1 -0.2 0" 
-                     visible="false"></a-image>
-            <a-text id="email-text" value="selvendran.s@infrazanalytics.com" 
-                     position="1.3 -0.2 0" 
-                     scale="0.7 0.7 0" 
-                     color="#FFFFFF" 
-                     visible="false"></a-text>
-
-            <a-image id="contact-icon" src="./assets/phone.png" 
-                     scale="0.15 0.15 0.15" 
-                     position="1.1 -0.5 0" 
-                     visible="false"></a-image>
-            <a-text id="contact-text" value="+91950079783" 
-                     position="1.3 -0.5 0" 
-                     scale="0.7 0.7 0" 
-                     color="#FFFFFF" 
-                     visible="false"></a-text>
-
-            <a-image id="website-icon" src="./assets/internet.png" 
-                     scale="0.15 0.15 0.15" 
-                     position="1.1 -0.8 0" 
-                     visible="false"></a-image>
-            <a-text id="website-text" value="www.infrazanalytics.com" 
-                     position="1.3 -0.8 0" 
-                     scale="0.7 0.7 0" 
-                     color="#FFFFFF" 
-                     visible="false"></a-text>
-
-            <!-- Left Side: 3D Model without Animation -->
-            <a-entity id="animated-model" gltf-model="./assets/model3.glb" 
-                      scale="0.4 0.4 0.4" 
-                      position="-1 0 0" 
-                      visible="false"></a-entity>
-
-            <!-- Bottom: Social Media Icons as Images -->
-            <a-image id="facebook-icon" 
-                      src="./assets/facebook.png" 
-                      scale="0.2 0.2 0.2" 
-                      position="-0.5 -0.5 -0.5" 
-                      visible="false" 
-                      class="clickable social-icon"
-                      onclick="console.log('Facebook icon clicked');"
-                      onmouseenter="this.setAttribute('scale', '0.25 0.25 0.25');"  
-                      onmouseleave="this.setAttribute('scale', '0.2 0.2 0.2');"></a-image>
-
-            <a-image id="linkedin-icon" 
-                     src="./assets/linkedin.png" 
-                     scale="0.2 0.2 0.2" 
-                     position="-0.2 -0.5 -0.5" 
-                     visible="false" 
-                     class="social-icon"
-                     onclick="window.open('https://www.linkedin.com/in/yourprofile', '_blank');"></a-image>
-            
-            <a-image id="instagram-icon" 
-                     src="./assets/instagram.png" 
-                     scale="0.2 0.2 0.2" 
-                     position="0.1 -0.5 -0.5" 
-                     visible="false" 
-                     class="social-icon"
-                     onclick="window.open('https://www.instagram.com/yourprofile', '_blank');"></a-image>
-        </a-marker>
-
-        <!-- Camera -->
-        <a-entity camera></a-entity>
-    </a-scene>
-
-    <script>
-        document.querySelector('#marker').addEventListener('markerFound', () => {
-            const elementsToShow = [
-                'background-video', 
-                'profile-image', 
-                'profile-name', 
-                'email-icon', 
-                'email-text', 
-                'contact-icon', 
-                'contact-text', 
-                'website-icon', 
-                'website-text', 
-                'animated-model', 
-                'facebook-icon', 
-                'linkedin-icon', 
-                'instagram-icon'
-            ];
-
-            const toggleVisibility = (elementId, visibility) => {
-                const element = document.getElementById(elementId);
-                if (element) {
-                    element.setAttribute('visible', visibility);
-                }
-            };
-
-            // Step 1: Show Video
-            toggleVisibility('background-video', 'true');
-            toggleVisibility('background-video', 'autoplay', 'true');
-
-            // Step 2: After 1 second, show Profile Image
-            setTimeout(() => {
-                toggleVisibility('profile-image', 'true');
-                toggleVisibility('profile-name', 'true');
-                document.getElementById('profile-image').setAttribute('class', 'flip-animation');
-                document.getElementById('profile-name').setAttribute('class', 'slide-in');
-            }, 1000); // 1 second delay
-
-            // Step 3: After 2 seconds, show Email, Contact, Website info
-            setTimeout(() => {
-                toggleVisibility('email-icon', 'true');
-                toggleVisibility('email-text', 'true');
-                toggleVisibility('contact-icon', 'true');
-                toggleVisibility('contact-text', 'true');
-                toggleVisibility('website-icon', 'true');
-                toggleVisibility('website-text', 'true');
-            }, 2000); // 2 seconds delay
-
-            // Step 4: After 3 seconds, show the Animated Model in Idle Position
-            setTimeout(() => {
-                toggleVisibility('animated-model', 'true');
-            }, 3000); // 3 seconds delay
-
-            // Step 5: Show Social Media Icons
-            setTimeout(() => {
-                toggleVisibility('facebook-icon', 'true');
-                toggleVisibility('linkedin-icon', 'true');
-                toggleVisibility('instagram-icon', 'true');
-            }, 4000); // 4 seconds delay
-        });
-
-        document.querySelector('#marker').addEventListener('markerLost', () => {
-            const elementsToHide = [
-                'background-video', 
-                'profile-image', 
-                'profile-name', 
-                'email-icon', 
-                'email-text', 
-                'contact-icon', 
-                'contact-text', 
-                'website-icon', 
-                'website-text', 
-                'animated-model', 
-                'facebook-icon', 
-                'linkedin-icon', 
-                'instagram-icon'
-            ];
-
-            const toggleVisibility = (elementId, visibility) => {
-                const element = document.getElementById(elementId);
-                if (element) {
-                    element.setAttribute('visible', visibility);
-                }
-            };
-
-            // Hide all elements when marker is lost
-            elementsToHide.forEach(id => toggleVisibility(id, 'false'));
-        });
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/",
+        "mindar-image-three":"https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-three.prod.js"
+      }
+    }
     </script>
-</body>
+    <script type="module">
+      import * as THREE from 'three';
+      import { MindARThree } from 'mindar-image-three';
+
+      const mindarThree = new MindARThree({
+        container: document.querySelector("#container"),
+        imageTargetSrc: "https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.5/examples/image-tracking/assets/card-example/card.mind"
+      });
+      const {renderer, scene, camera} = mindarThree;
+      const anchor = mindarThree.addAnchor(0);
+
+      // Profile Image
+      const profileTexture = new THREE.TextureLoader().load('./assets/selva.png');
+      const profileMaterial = new THREE.MeshBasicMaterial({map: profileTexture});
+      const profileGeometry = new THREE.PlaneGeometry(0.5, 0.5);
+      const profileMesh = new THREE.Mesh(profileGeometry, profileMaterial);
+      profileMesh.position.set(0, 0.6, 0);
+      anchor.group.add(profileMesh);
+
+      // Name Text
+      const nameText = document.createElement('canvas');
+      const nameContext = nameText.getContext('2d');
+      nameContext.font = '30px Arial';
+      nameContext.fillStyle = '#FFD700';
+      nameContext.fillText('SELVENDRAN S', 10, 50);
+      const nameTexture = new THREE.CanvasTexture(nameText);
+      const nameMaterial = new THREE.MeshBasicMaterial({map: nameTexture, transparent: true});
+      const nameMesh = new THREE.Mesh(new THREE.PlaneGeometry(1.5, 0.2), nameMaterial);
+      nameMesh.position.set(0, 0.1, 0);
+      anchor.group.add(nameMesh);
+
+      // Social Media Icons
+      const addIcon = (url, position) => {
+        const texture = new THREE.TextureLoader().load(url);
+        const material = new THREE.MeshBasicMaterial({ map: texture, transparent: true });
+        const iconMesh = new THREE.Mesh(new THREE.PlaneGeometry(0.3, 0.3), material);
+        iconMesh.position.set(position.x, position.y, position.z);
+        anchor.group.add(iconMesh);
+
+        iconMesh.userData = { url }; // Store URL in userData
+
+        iconMesh.onClick = () => {
+          window.open(iconMesh.userData.url, '_blank');
+        };
+
+        // Hover effect
+        iconMesh.onHover = () => {
+          iconMesh.scale.set(1.2, 1.2, 1.2); // Enlarge
+        };
+        iconMesh.onLeave = () => {
+          iconMesh.scale.set(1, 1, 1); // Reset size
+        };
+
+        return iconMesh;
+      };
+
+      addIcon('./assets/facebook.png', {x: -0.5, y: -0.5, z: 0});
+      addIcon('./assets/linkedin.png', {x: -0.2, y: -0.5, z: 0});
+      addIcon('./assets/instagram.png', {x: 0.1, y: -0.5, z: 0});
+
+      // Video Element
+      const video = document.createElement('video');
+      video.src = './assets/video.mp4';
+      video.loop = true;
+      video.muted = true;
+      video.play();
+
+      const videoTexture = new THREE.VideoTexture(video);
+      const videoMaterial = new THREE.MeshBasicMaterial({ map: videoTexture });
+      const videoGeometry = new THREE.PlaneGeometry(1, 0.55);
+      const videoMesh = new THREE.Mesh(videoGeometry, videoMaterial);
+      videoMesh.position.set(0, -1, 0);
+      anchor.group.add(videoMesh);
+
+      // Start the AR experience
+      const start = async () => {
+        await mindarThree.start();
+        renderer.setAnimationLoop(() => {
+          renderer.render(scene, camera);
+        });
+      };
+
+      start();
+    </script>
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+      }
+      #container {
+        width: 100vw;
+        height: 100vh;
+        position: relative;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container"></div>
+  </body>
 </html>
